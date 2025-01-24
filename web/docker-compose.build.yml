@@ -1,0 +1,12 @@
+services:
+  fahrrad-build-frontend:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    image: fahrrad-build-frontend:latest
+    volumes:
+      - ./dist/:/app/dist/
+      - ./src/:/app/src/
+      - ./tsconfig.spec.json:/app/tsconfig.spec.json
+      - ./tsconfig.json:/app/tsconfig.json
+      - ./tsconfig.app.json:/app/tsconfig.app.json

@@ -43,7 +43,7 @@ public class AuthenticationService {
     }
 
     public void registerUser(RegisterDto body) throws ConstraintException {
-        if (body.getUsername().isBlank() || body.getPassword().isBlank() || body.getName().isBlank()) {
+        if (body.getUsername().isBlank() || body.getPassword().isBlank()) {
             throw new IllegalArgumentException("Username, password and name must not be empty");
         }
 

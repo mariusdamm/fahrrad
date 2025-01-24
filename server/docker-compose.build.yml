@@ -1,0 +1,9 @@
+services:
+  fahrrad-build-backend:
+    build:
+      context: .
+      dockerfile: Dockerfile.build
+    image: fahrrad-build-backend:latest
+    volumes:
+      - ./target/:/app/target/
+      - ./src/:/app/src/

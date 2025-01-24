@@ -2,11 +2,11 @@ import {Component, OnDestroy, OnInit} from '@angular/core';
 import {NavigationEnd, Router, RouterLink, RouterOutlet} from '@angular/router';
 import {Subscription} from 'rxjs';
 import {AuthService} from './services/auth.service';
-import {NgOptimizedImage} from '@angular/common';
+import {NgIf, NgOptimizedImage} from '@angular/common';
 
 @Component({
   selector: 'app-root',
-  imports: [RouterOutlet, RouterLink, NgOptimizedImage],
+  imports: [RouterOutlet, RouterLink, NgOptimizedImage, NgIf],
   templateUrl: './app.component.html',
   styleUrl: './app.component.css'
 })

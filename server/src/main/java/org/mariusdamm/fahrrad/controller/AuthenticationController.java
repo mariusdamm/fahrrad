@@ -5,8 +5,6 @@ import org.mariusdamm.fahrrad.dto.LoginResponseDto;
 import org.mariusdamm.fahrrad.dto.RegisterDto;
 import org.mariusdamm.fahrrad.exception.ConstraintException;
 import org.mariusdamm.fahrrad.service.AuthenticationService;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.AuthenticationException;

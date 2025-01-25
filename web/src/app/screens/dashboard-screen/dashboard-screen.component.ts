@@ -18,14 +18,14 @@ export class DashboardScreenComponent implements OnInit {
   ) {
   }
 
-  ngOnInit(){
+  ngOnInit() {
     this.fetchDrives();
   }
 
   fetchDrives() {
     this.axiosService.request(
       "GET",
-      "/drives/",
+      "/drives",
       ""
     ).then(response => {
       return response.data;
@@ -38,4 +38,18 @@ export class DashboardScreenComponent implements OnInit {
         this.authService.deleteJwtToken();
     });
   }
+
+  addDrive() {
+    let date = new Date();
+    let drive: DriveDto = new DriveDto(date)
+    this.axiosService.request(
+      "POST",
+      "/drives",
+      drive
+    ).then(response => {
+      console.log(response);
+    })
+  }
+
+  protected readonly Date = Date;
 }

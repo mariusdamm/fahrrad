@@ -3,10 +3,11 @@ import {NavigationEnd, Router, RouterLink, RouterOutlet} from '@angular/router';
 import {Subscription} from 'rxjs';
 import {AuthService} from './services/auth.service';
 import {NgIf, NgOptimizedImage} from '@angular/common';
+import {NameDropdownComponent} from './header/name-dropdown/name-dropdown.component';
 
 @Component({
   selector: 'app-root',
-  imports: [RouterOutlet, RouterLink, NgOptimizedImage, NgIf],
+  imports: [RouterOutlet, RouterLink, NgOptimizedImage, NgIf, NameDropdownComponent],
   templateUrl: './app.component.html',
   styleUrl: './app.component.css'
 })
@@ -32,8 +33,7 @@ export class AppComponent implements OnInit, OnDestroy {
   }
 
   ngOnInit() {
-    this.loggedInSubscription = this.authService.isLoggedIn
-      .subscribe(isLoggedIn => {
+    this.loggedInSubscription = this.authService.isLoggedIn.subscribe(isLoggedIn => {
         this.isLoggedIn = isLoggedIn;
       });
   }

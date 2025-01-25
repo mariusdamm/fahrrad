@@ -19,6 +19,8 @@ public class AppUser implements UserDetails {
     private String username;
     @Column(name = "user_password", nullable = false)
     private String password;
+    @Column(name = "appuser_name")
+    private String name;
     @ManyToMany(fetch = FetchType.EAGER)
     private Collection<Role> authorities = new ArrayList<>();
     @OneToMany(mappedBy = "owner")
@@ -27,12 +29,21 @@ public class AppUser implements UserDetails {
     public AppUser() {
     }
 
-    public AppUser(long id, String username, String password, Collection<Role> authorities, Collection<Drive> drives) {
+    public AppUser(long id, String username, String password, String name, Collection<Role> authorities, Collection<Drive> drives) {
         this.id = id;
         this.username = username;
         this.password = password;
+        this.name = name;
         this.authorities = authorities;
         this.drives = drives;
+    }
+
+    public String getName() {
+        return name;
+    }
+
+    public void setName(String name) {
+        this.name = name;
     }
 
     @Override

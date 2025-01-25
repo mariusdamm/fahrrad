@@ -31,9 +31,11 @@ export class RegisterScreenComponent {
 
     const usernameInput = document.getElementById(usernameInputId) as HTMLInputElement;
     const passwordInput = document.getElementById(passwordInputId) as HTMLInputElement;
+    const nameInput = document.getElementById(nameInputId) as HTMLInputElement;
 
     const username = usernameInput.value.trim();
     const password = passwordInput.value.trim();
+    const name = nameInput.value.trim();
 
     if (username === '') {
       this.utilService.highlightInvalidInput(usernameInput);
@@ -41,11 +43,14 @@ export class RegisterScreenComponent {
     if (password === '') {
       this.utilService.highlightInvalidInput(passwordInput);
     }
-    if (username === '' || password === '') {
+    if (name === '') {
+      this.utilService.highlightInvalidInput(nameInput);
+    }
+    if (username === '' || password === '' || name === '') {
       return;
     }
 
-    let registerDto: RegisterDto = new RegisterDto(username, password);
+    let registerDto: RegisterDto = new RegisterDto(username, password, name);
 
     this.axiosService.requestWithoutToken(
       "POST",

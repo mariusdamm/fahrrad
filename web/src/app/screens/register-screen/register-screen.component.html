@@ -4,6 +4,11 @@
       <form (ngSubmit)="registerUser($event, 'nameRegisterInput',
         'usernameRegisterInput', 'passwordRegisterInput')">
         <div class="form-floating mb-2">
+          <input type="text" class="form-control" id="nameRegisterInput" autocomplete="on">
+          <label for="nameRegisterInput">Name</label>
+        </div>
+
+        <div class="form-floating mb-2">
           <input type="text" class="form-control" id="usernameRegisterInput" autocomplete="on">
           <label for="usernameRegisterInput">Username</label>
         </div>

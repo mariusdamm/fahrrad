@@ -1,0 +1,8 @@
+<div class="btn-group d-none d-sm-block">
+  <button type="button" class="btn btn-black dropdown-toggle" data-bs-toggle="dropdown"
+          aria-expanded="false" id="usernameButton">{{ user?.name }}
+  </button>
+  <ul class="dropdown-menu dropdown-menu-end">
+    <li><a class="dropdown-item" (click)="logoutUser()">Logout</a></li>
+  </ul>
+</div>

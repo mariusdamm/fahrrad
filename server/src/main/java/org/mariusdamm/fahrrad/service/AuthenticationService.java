@@ -55,7 +55,7 @@ public class AuthenticationService {
 
         List<Role> roles = List.of(userRole);
         appUserRepository.save(new AppUser(
-                0, body.getUsername(), passwordEncoder.encode(body.getPassword()), roles, new ArrayList<>()
+                0, body.getUsername(), passwordEncoder.encode(body.getPassword()), body.getName(), roles, new ArrayList<>()
         ));
     }
 }

@@ -1,6 +1,7 @@
 package org.mariusdamm.fahrrad.entity;
 
 import jakarta.persistence.*;
+import org.mariusdamm.fahrrad.dto.AppUserDto;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
 
@@ -87,5 +88,9 @@ public class AppUser implements UserDetails {
 
     public void setDrives(Collection<Drive> drives) {
         this.drives = drives;
+    }
+
+    public AppUserDto toDto(){
+        return new AppUserDto(id, username, name);
     }
 }

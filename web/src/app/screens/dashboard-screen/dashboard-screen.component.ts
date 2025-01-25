@@ -1,4 +1,5 @@
 import { Component } from '@angular/core';
+import {DriveDto} from '../../dtos/drive-dto';
 
 @Component({
   selector: 'app-dashboard-screen',
@@ -7,5 +8,5 @@ import { Component } from '@angular/core';
   styleUrl: './dashboard-screen.component.css'
 })
 export class DashboardScreenComponent {
-
+  drives: DriveDto[] = [];
 }

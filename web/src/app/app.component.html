@@ -9,6 +9,12 @@
 
     <div class="col-auto d-flex flex-row">
 
+      <div *ngIf="isLoggedIn === true" class="d-flex justify-content-between">
+        <h5 class="m-0 me-1 d-inline">
+          <span class="badge text-bg-black">{{user.name}}</span>
+        </h5>
+      </div>
+
       <div *ngIf="isLoggedIn === false" class="d-flex justify-content-between">
         <a type="button" class="btn btn-black" routerLink="/login">Login</a>
         <div class="mx-1"></div>

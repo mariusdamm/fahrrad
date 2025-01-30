@@ -1,15 +1,13 @@
 package org.mariusdamm.fahrrad.dto;
 
-import java.time.LocalDateTime;
-
 public class DriveDto {
     private long id;
-    private LocalDateTime date;
+    private String date;
 
     public DriveDto() {
     }
 
-    public DriveDto(long id, LocalDateTime date) {
+    public DriveDto(long id, String date) {
         this.id = id;
         this.date = date;
     }
@@ -22,11 +20,11 @@ public class DriveDto {
         this.id = id;
     }
 
-    public LocalDateTime getDate() {
+    public String getDate() {
         return date;
     }
 
-    public void setDate(LocalDateTime date) {
+    public void setDate(String date) {
         this.date = date;
     }
 }

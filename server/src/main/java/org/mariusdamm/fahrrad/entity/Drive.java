@@ -1,8 +1,7 @@
 package org.mariusdamm.fahrrad.entity;
 
 import jakarta.persistence.*;
-
-import java.time.LocalDateTime;
+import org.mariusdamm.fahrrad.dto.DriveDto;
 
 @Entity
 @Table(name = "drive")
@@ -12,7 +11,7 @@ public class Drive {
     @Column(name = "drive_id", nullable = false)
     long id;
     @Column(name = "drive_date")
-    LocalDateTime date;
+    String date;
     @ManyToOne()
     @JoinColumn(name = "drive_owner")
     private AppUser owner;
@@ -20,7 +19,7 @@ public class Drive {
     public Drive() {
     }
 
-    public Drive(long id, LocalDateTime date, AppUser owner) {
+    public Drive(long id, String date, AppUser owner) {
         this.id = id;
         this.date = date;
         this.owner = owner;
@@ -34,11 +33,11 @@ public class Drive {
         this.id = id;
     }
 
-    public LocalDateTime getDate() {
+    public String getDate() {
         return date;
     }
 
-    public void setDate(LocalDateTime date) {
+    public void setDate(String date) {
         this.date = date;
     }
 
@@ -48,5 +47,9 @@ public class Drive {
 
     public void setOwner(AppUser owner) {
         this.owner = owner;
+    }
+
+    public DriveDto toDto(){
+        return new DriveDto(id, date);
     }
 }

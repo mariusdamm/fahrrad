@@ -10,6 +10,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.ArrayList;
 import java.util.Collection;
 
 @RestController
@@ -25,7 +26,7 @@ public class DriveController {
     }
 
     @GetMapping("")
-    public ResponseEntity<Collection<Drive>> getYearlyDrivesOfUser(){
+    public ResponseEntity<Collection<DriveDto>> getYearlyDrivesOfUser(){
         String username = SecurityContextHolder.getContext().getAuthentication().getName();
         AppUser user = appUserService.getUserByUsername(username);
         if (user == null) {
@@ -33,18 +34,21 @@ public class DriveController {
         }
 
         Collection<Drive> drives = driveService.getYearlyDrivesOfUser(user);
-        return ResponseEntity.status(HttpStatus.OK).body(drives);
+        Collection<DriveDto> dtos = new ArrayList<>();
+        for (Drive drive : drives){
+            dtos.add(drive.toDto());
+        }
+        return ResponseEntity.status(HttpStatus.OK).body(dtos);
     }
 
     @PostMapping("")
-    public ResponseEntity<Drive> createDrive(@RequestBody DriveDto drive) {
+    public ResponseEntity<DriveDto> createDrive(@RequestBody DriveDto drive) {
         String username = SecurityContextHolder.getContext().getAuthentication().getName();
         AppUser user = appUserService.getUserByUsername(username);
         if (user == null) {
             return ResponseEntity.status(HttpStatus.NOT_FOUND).body(null);
         }
 
-        Drive new_drive = driveService.createDrive(drive, user);
-        return ResponseEntity.status(HttpStatus.CREATED).body(new_drive);
+        return ResponseEntity.status(HttpStatus.CREATED).body(driveService.createDrive(drive, user));
     }
 }

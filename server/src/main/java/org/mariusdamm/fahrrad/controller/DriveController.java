@@ -3,6 +3,7 @@ package org.mariusdamm.fahrrad.controller;
 import org.mariusdamm.fahrrad.dto.DriveDto;
 import org.mariusdamm.fahrrad.entity.AppUser;
 import org.mariusdamm.fahrrad.entity.Drive;
+import org.mariusdamm.fahrrad.exception.ConstraintException;
 import org.mariusdamm.fahrrad.service.AppUserService;
 import org.mariusdamm.fahrrad.service.DriveService;
 import org.springframework.http.HttpStatus;
@@ -48,7 +49,12 @@ public class DriveController {
         if (user == null) {
             return ResponseEntity.status(HttpStatus.NOT_FOUND).body(null);
         }
+        try {
+            DriveDto dto = driveService.createDrive(drive, user);
+            return ResponseEntity.status(HttpStatus.CREATED).body(dto);
+        } catch (ConstraintException e) {
+            return ResponseEntity.status(HttpStatus.FOUND).body(null);
+        }
 
-        return ResponseEntity.status(HttpStatus.CREATED).body(driveService.createDrive(drive, user));
     }
 }

@@ -10,7 +10,7 @@ public class Drive {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "drive_id", nullable = false)
     long id;
-    @Column(name = "drive_date", unique = true, nullable = false)
+    @Column(name = "drive_date", nullable = false)
     String date;
     @ManyToOne()
     @JoinColumn(name = "drive_owner")

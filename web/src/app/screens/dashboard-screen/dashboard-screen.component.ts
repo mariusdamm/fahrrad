@@ -1,7 +1,9 @@
-import {Component, OnInit} from '@angular/core';
+import {Component, OnDestroy, OnInit} from '@angular/core';
 import {DriveDto} from '../../dtos/drive-dto';
 import {AxiosService} from '../../services/axios.service';
 import {AuthService} from '../../services/auth.service';
+import {DriveProviderService} from '../../drive-provider.service';
+import {Subscription} from 'rxjs';
 
 @Component({
   selector: 'app-dashboard-screen',
@@ -9,17 +11,25 @@ import {AuthService} from '../../services/auth.service';
   templateUrl: './dashboard-screen.component.html',
   styleUrl: './dashboard-screen.component.css'
 })
-export class DashboardScreenComponent implements OnInit {
-  drives: DriveDto[] = [];
+export class DashboardScreenComponent implements OnInit, OnDestroy {
+  private drive_sub?: Subscription;
+  protected drives: DriveDto[] = [];
 
   constructor(
     private readonly axiosService: AxiosService,
     private readonly authService: AuthService,
+    private readonly driveProvider: DriveProviderService,
   ) {
   }
 
   ngOnInit() {
     this.fetchDrives();
+    this.drive_sub = this.driveProvider.drives.subscribe(drives => this.drives = drives);
+  }
+
+  ngOnDestroy() {
+    if (this.drive_sub)
+      this.drive_sub.unsubscribe()
   }
 
   fetchDrives() {
@@ -49,8 +59,13 @@ export class DashboardScreenComponent implements OnInit {
       "/drives",
       drive
     ).then(response => {
-      console.log(response);
-    })
+      return response.data;
+    }).then(drive => {
+      this.driveProvider.addDrive(drive)
+    }).catch(error => {
+      if (error.response.status === 401)
+        this.authService.deleteJwtToken();
+    });
   }
 
   protected readonly Date = Date;

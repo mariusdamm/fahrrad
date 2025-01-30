@@ -1,17 +1,38 @@
 <div class="container-fluid">
-  <div class="row">
+  <div class="row mb-3">
     <div class="col d-flex justify-content-center">
-      <h5 class="m-0 me-1 d-inline">
-        <span class="badge text-bg-black">Fahrten diese Jahr:</span>
-      </h5>
-      <h5 class="m-0 me-1 d-inline">
-        <span class="badge">{{drives.length}}</span>
+      <h5 class="m-0 d-inline">
+        <span class="badge text-bg-black">Fahrten diese Jahr: {{drives.length}}</span>
       </h5>
     </div>
   </div>
-  <div class="row">
+  <div class="row mb-1">
+    <div class="col d-flex justify-content-center">
+      <input type="date" id="driveDateInput" class="form-control">
+    </div>
+  </div>
+  <div class="row mb-2">
     <div class="col d-flex justify-content-center">
       <button type="button" class="btn btn-primary" (click)="addDrive()">Fahrt hinzufügen</button>
+    </div>
+  </div>
+  <div class="row mb-1">
+    <div class="col d-flex justify-content-center">
+      <div class="collapse w-100" id="postSuccess">
+        <div class="alert alert-success m-0" role="alert">
+          Fahrt erfolgreich hinzugefügt!
+        </div>
+      </div>
+      <div class="collapse w-100" id="postWarning">
+        <div class="alert alert-warning m-0" role="alert">
+          Fahrt für heute bereits hinzugefügt
+        </div>
+      </div>
+      <div class="collapse w-100" id="postError">
+        <div class="alert alert-danger m-0" role="alert">
+          Fahrt konnte nicht hinzugefügt werden...
+        </div>
+      </div>
     </div>
   </div>
 </div>

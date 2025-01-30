@@ -5,6 +5,8 @@ import {AuthService} from '../../services/auth.service';
 import {DriveProviderService} from '../../drive-provider.service';
 import {Subscription} from 'rxjs';
 
+declare let bootstrap: any;
+
 @Component({
   selector: 'app-dashboard-screen',
   imports: [],
@@ -62,9 +64,17 @@ export class DashboardScreenComponent implements OnInit, OnDestroy {
       return response.data;
     }).then(drive => {
       this.driveProvider.addDrive(drive)
+      const bsCollapse = new bootstrap.Collapse('#postSuccess', {});
+      bsCollapse.show();
+      setTimeout(() => bsCollapse.hide(), 3000);
     }).catch(error => {
       if (error.response.status === 401)
         this.authService.deleteJwtToken();
+
+      const bsCollapse = new bootstrap.Collapse(error.response.status == 302 ? '#postWarning' : '#postError', {});
+      bsCollapse.show();
+      setTimeout(() => bsCollapse.hide(), 3000);
+
     });
   }
 

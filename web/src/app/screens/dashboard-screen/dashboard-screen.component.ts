@@ -41,7 +41,9 @@ export class DashboardScreenComponent implements OnInit {
 
   addDrive() {
     let date = new Date();
-    let drive: DriveDto = new DriveDto(date)
+    let drive: DriveDto = new DriveDto(
+      (date.getFullYear().toString() + date.getMonth().toString() + date.getDate().toString())
+    )
     this.axiosService.request(
       "POST",
       "/drives",

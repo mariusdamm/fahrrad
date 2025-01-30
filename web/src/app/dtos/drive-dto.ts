@@ -1,8 +1,8 @@
 export class DriveDto {
   id: number = 0;
-  date: Date;
+  date: string;
 
-  constructor(date: Date) {
+  constructor(date: string) {
     this.date = date;
   }
 }

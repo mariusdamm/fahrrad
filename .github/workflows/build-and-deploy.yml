@@ -1,0 +1,41 @@
+name: Build and Deploy
+
+on:
+  push:
+    branches:
+      - 'main'
+      
+jobs:
+  build:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout Repository
+        uses: actions/checkout@v4
+
+      - name: Set execute permission for build script
+        run: chmod +x scripts/build.sh
+
+      - name: Run build script
+        working-directory: ./scripts
+        run: ./build.sh
+
+      - name: Extract version from pom.xml
+        working-directory: ./server
+        id: extract_version
+        run: echo "VERSION=$(mvn help:evaluate -Dexpression=project.version -q -DforceStdout)" >> $GITHUB_ENV
+  
+      - name: Build Docker Image with latest tag
+        run: docker build -t ghcr.io/${{ github.repository_owner }}/fahrrad:latest .
+
+      - name: Build Docker Image with version tag
+        run: docker build -t ghcr.io/${{ github.repository_owner }}/fahrrad:${{ env.VERSION }} .
+
+      - name: Login to GHCR
+        run: echo "${{ secrets.GHCR_TOKEN }}" | docker login ghcr.io -u ${{ github.repository_owner }} --password-stdin
+
+      - name: Push Docker Image with latest tag to GHCR
+        run: docker push ghcr.io/${{ github.repository_owner }}/fahrrad:latest
+
+      - name: Push Docker Image with version tag to GHCR
+        run: docker push ghcr.io/${{ github.repository_owner }}/fahrrad:${{ env.VERSION }}

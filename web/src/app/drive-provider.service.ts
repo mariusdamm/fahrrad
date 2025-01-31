@@ -18,4 +18,8 @@ export class DriveProviderService {
   addDrive(drive: DriveDto) {
     this._drives.next([...this._drives.getValue(), drive]);
   }
+
+  addDrives(drives: DriveDto[]) {
+    this._drives.next([...this._drives.getValue(), ...drives]);
+  }
 }

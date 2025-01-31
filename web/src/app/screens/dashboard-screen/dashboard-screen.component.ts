@@ -1,4 +1,4 @@
-import {Component, OnDestroy, OnInit} from '@angular/core';
+import {AfterViewInit, Component, ElementRef, OnDestroy, OnInit, ViewChild} from '@angular/core';
 import {DriveDto} from '../../dtos/drive-dto';
 import {AxiosService} from '../../services/axios.service';
 import {AuthService} from '../../services/auth.service';
@@ -13,9 +13,10 @@ declare let bootstrap: any;
   templateUrl: './dashboard-screen.component.html',
   styleUrl: './dashboard-screen.component.css'
 })
-export class DashboardScreenComponent implements OnInit, OnDestroy {
+export class DashboardScreenComponent implements OnInit, OnDestroy, AfterViewInit {
   private drive_sub?: Subscription;
   protected drives: DriveDto[] = [];
+  @ViewChild('driveDateInput') dateInput!: ElementRef<HTMLInputElement>;
 
   constructor(
     private readonly axiosService: AxiosService,
@@ -25,13 +26,19 @@ export class DashboardScreenComponent implements OnInit, OnDestroy {
   }
 
   ngOnInit() {
+    this.drive_sub = this.driveProvider.drives
+      .subscribe(drives => this.drives = drives);
     this.fetchDrives();
-    this.drive_sub = this.driveProvider.drives.subscribe(drives => this.drives = drives);
   }
 
   ngOnDestroy() {
     if (this.drive_sub)
       this.drive_sub.unsubscribe()
+  }
+
+  ngAfterViewInit() {
+    let date = new Date()
+    this.dateInput.nativeElement.value = date.toISOString().split('T')[0];
   }
 
   fetchDrives() {
@@ -44,7 +51,7 @@ export class DashboardScreenComponent implements OnInit, OnDestroy {
     }).then(drives => {
       if (drives == null)
         throw Error("drives is null")
-      this.drives = drives;
+      this.driveProvider.addDrives(drives);
     }).catch(error => {
       if (error.response.status === 401)
         this.authService.deleteJwtToken();
@@ -52,9 +59,8 @@ export class DashboardScreenComponent implements OnInit, OnDestroy {
   }
 
   addDrive() {
-    let date = new Date();
     let drive: DriveDto = new DriveDto(
-      (date.getFullYear().toString() + date.getMonth().toString() + date.getDate().toString())
+      this.dateInput.nativeElement.value.toString()
     )
     this.axiosService.request(
       "POST",
@@ -74,9 +80,6 @@ export class DashboardScreenComponent implements OnInit, OnDestroy {
       const bsCollapse = new bootstrap.Collapse(error.response.status == 302 ? '#postWarning' : '#postError', {});
       bsCollapse.show();
       setTimeout(() => bsCollapse.hide(), 3000);
-
     });
   }
-
-  protected readonly Date = Date;
 }
